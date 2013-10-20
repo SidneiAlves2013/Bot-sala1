@@ -57,7 +57,7 @@
       curates: 0
     };
 
-    settings.prototype.pupScriptUrl = 'https://raw.github.com/SrNoName/BBBBB/master/TBRBot';
+    settings.prototype.pupScriptUrl = 'https://raw.github.com/SidneiAlves2013/Bot-sala1/master';
 
     settings.prototype.afkTime = 30 * 60 * 1000;
 
