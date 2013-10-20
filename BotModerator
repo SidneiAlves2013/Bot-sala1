@@ -57,7 +57,7 @@
       curates: 0
     };
 
-    settings.prototype.pupScriptUrl = 'https://raw.github.com/SrNoName/BBBBB/master/TBRBot';
+    settings.prototype.pupScriptUrl = 'https://raw.github.com/SidneiAlves2013/Bot-sala1/master/BotModerator';
 
     settings.prototype.afkTime = 30 * 60 * 1000;
 
@@ -349,7 +349,7 @@
   })();
 
   pupOnline = function() {
-    return API.sendChat("/me:Bot versão ETD'br  ON!");
+    return API.sendChat("/me:Bot versão ♫ᕮᒪᕮƬᖇ〇 Ƭᖇᗩᑭ & ÐᑌᙖᔕƬᕮᑭ♫ ზ  ON!");
   };
 
   populateUserData = function() {
@@ -786,7 +786,7 @@
     roomHelpCommand.prototype.functionality = function() {
       var msg1, msg2;
 
-      msg1 = "Bem vindo a sala Electro, Trap & Dubstep Brasil ! ETD , Ser DJ: Crie uma lista de reprodução e coloque Musica do Youtube ou soundcloud. ";
+      msg1 = "Bem vindo a sala ♫ᕮᒪᕮƬᖇ〇 Ƭᖇᗩᑭ & ÐᑌᙖᔕƬᕮᑭ♫ ზ ! ETD , Ser DJ: Crie uma lista de reprodução e coloque Musica do Youtube ou soundcloud. ";
       msg1 += "Se é novo procure pelo seu nome na sua tela (próximo a cabine do DJ) e depois mude o nome. ";
       msg1 += "Para Ganhar Pontos clique em Bacana. ";
       msg2 = "Divirta-se! Qualquer outra duvida chame um adm da sala ";
@@ -885,7 +885,7 @@
     }
 
     downloadCommand.prototype.init = function() {
-      this.command = '!DETD ';
+      this.command = '!ETD ';
       this.parseType = 'exact';
       return this.rankPrivelege = 'featured';
     };
