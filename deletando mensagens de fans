@@ -1,0 +1,110 @@
+if (autoModerator !== undefined)
+  autoModerator.close()
+ 
+String.prototype.equalsIgnoreCase     = function(other)    { return typeof other !== 'string' ? false : this.toLowerCase() === other.toLowerCase(); };
+var autoModeratorModel = require('app/base/Class').extend({
+        version: "",
+        bannedWords: [         
+                         ':trollface:',
+                         'adf.ly',
+                         ':shit:',
+                         'AutoWoot:',
+                         ':poop:',
+                         'Automatic fan',
+                         '(Auto fan)',
+                         'Fan 4 Fan automatic, just fan me',
+                         'Fan 4 Fan automatic,',
+                         'Pssst, I auto fan you back, just fan me!',
+                         'Fan4Fan? (Auto RT)',
+                         'Fan for fan . Quem virar meu fan, viro imediatamente seu fan!',
+                         'Need Fans? Fan me!',
+                         'Automatic fan when you fan me!',
+                         'Turns my fan, i turns you fan back !',
+                         'Fan 4 fan ?',
+                         'troco fan',
+                         'FAN FOR FAN!',
+                         'quem troca fan',
+                         'Quem vira meu fan sigo de volta',
+                         'I fan you back, just fan me!',
+                         'FAN 4 FAN, just fan me!',
+                         'Troco fan',
+                         'vai toma no cu',
+                         'viado',
+                         'quem troca fan ?',
+                         'Agora e seu fan!',
+                         'Fan for fan',
+                         'Troco fans, retribuo imediatamente!',
+                         'I m FanBOT, I do auto fan 4 fan. So what are you waiting for',
+                         'Free fans here! Just fan me',
+                         'Pssst, I auto fan you back, just fan me!',
+                         'Fan 4 Fan automatic, just fan me!',
+                         'Automatic fan when you fan me!',
+                         'Auto Fan'
+ 
+        ],
+        mutedUsers: [],
+        init: function() {
+                this.proxy = {
+                        chat:        $.proxy(this.onChat,          this),
+                        chatCommand: $.proxy(this.onChatCommand,   this),
+                }
+                API.on(API.CHAT,          this.proxy.chat);
+                API.on(API.CHAT_COMMAND,  this.proxy.chatCommand);
+                console.log('Antitroll ' + this.version + ' Ativo!')
+                API.sendChat('/em , ' + this.version + '. Ligado!')
+        },
+        close: function() {
+                API.off(API.CHAT,          this.proxy.onChat);
+                API.off(API.CHAT_COMMAND,  this.proxy.onChatCommand);
+                console.log('/me Antitroll ' + this.version + ' desligado!')
+        },
+        onChat:function(data) {
+                for (var i in this.bannedWords) {
+                        var message = data.message.toLowerCase();
+                        if (message.indexOf(this.bannedWords[i].toLowerCase()) > -1)
+                                API.moderateDeleteChat(data.chatID)
+                };
+                if (this.mutedUsers.indexOf(data.fromID) > -1)
+                        API.moderateDeleteChat(data.chatID);
+        },
+        onChatCommand: function(value) {
+                if (value.indexOf('/spam') === 0) {
+                        var a = value.substr(8)
+                        if (this.bannedWords.indexOf(a) < 0) {
+                                this.bannedWords.push(a)
+                                API.chatLog(a + ' Adicionada a lista de spams')
+                        } else {
+                                this.bannedWords.splice(this.bannedWords.indexOf(a),1)
+                                API.chatLog(a + ' Removida da lista de spams')
+                        }
+                }
+                if (value.indexOf('/muta') === 0) {
+                        var user = this.getUserID(value.substr(5))
+                        if (user === null) API.chatLog('usuario não encontrado!')
+                        else {
+                                this.mutedUsers.push(user.id)
+                                API.chatLog(user.username + ' adicionado a lista de mutados')
+                        }
+                }
+                if (value.indexOf('/desmuta') === 0) {
+                        var user = this.getUserID(value.substr(7))
+                        if (user === null) API.chatLog('usuario não encontrado!')
+                        else if (this.mutedUsers.indexOf(user.id) > -1) {
+                                this.mutedUsers.splice(this.mutedUsers.indexOf(user.id), 1);
+                                API.chatLog(user.username + ' removido da lista de mutados')
+                        }
+                }
+        },
+        getUserID: function(data) {
+        data = data.trim();
+        if (data.substr(0,1) === '@')
+            data = data.substr(1);
+            var users = API.getUsers();
+            for (var i in users) {
+                if (users[i].username.equalsIgnoreCase(data) || users[i].id.equalsIgnoreCase(data))
+                    return users[i];
+            }
+            return null;
+        }
+});
+var autoModerator = new autoModeratorModel();
